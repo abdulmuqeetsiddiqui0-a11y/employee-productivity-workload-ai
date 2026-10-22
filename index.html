@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Productivity vs Workload Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f5f1;--surf:#fff;--ink:#17302f;--mut:#5d716f;--line:#d9dfdb;--teal:#0f5c58;--risk:#c9402f;--safe:#2f8a57;--amb:#b9782a;--soft:#e6efec}
+@media(prefers-color-scheme:dark){:root{--bg:#0f1a19;--surf:#162624;--ink:#e8f0ee;--mut:#98ada9;--line:#2a3d3a;--teal:#5fc4bb;--risk:#ef7b6b;--safe:#62c68c;--amb:#e0a350;--soft:#1d332f}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 "Source Sans 3",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;line-height:1.1;margin:0}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:20px;align-items:center;padding:12px 24px;flex-wrap:wrap}
+nav b{font-family:"Bricolage Grotesque",sans-serif;margin-right:auto}
+nav a{text-decoration:none;color:var(--mut);font-weight:600;font-size:15px}nav a:hover{color:var(--ink)}
+section{max-width:1100px;margin:0 auto;padding:52px 24px}
+.hero{display:grid;grid-template-columns:1fr 1.2fr;gap:36px;align-items:center}
+.hero h1{font-size:clamp(34px,5vw,58px);font-weight:800;letter-spacing:-.02em}
+.hero p{color:var(--mut);max-width:48ch}
+.btn{display:inline-block;background:var(--teal);color:var(--bg);padding:11px 20px;border-radius:6px;font-weight:600;text-decoration:none}
+.panel{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:22px}
+h2{font-size:clamp(26px,3.4vw,36px);margin-bottom:8px}
+.sub{color:var(--mut);margin:0 0 24px;max-width:66ch}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:14px}
+.kpi{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:16px}
+.kpi b{display:block;font:800 28px "Bricolage Grotesque",sans-serif}.kpi span{color:var(--mut);font-size:14px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}th{color:var(--mut);font-weight:600}
+.hm td,.hm th{text-align:center}.hm td:first-child,.hm th:first-child{text-align:left}
+.pill{display:inline-block;padding:2px 10px;border-radius:99px;font-weight:600;font-size:13px;color:#fff}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.row{display:grid;grid-template-columns:150px 1fr;gap:10px;align-items:center;margin:7px 0;font-size:15px}
+.axis{position:relative;height:20px;background:var(--soft);border-radius:3px}
+.axis i{position:absolute;top:0;bottom:0;border-radius:3px}
+.axis:after{content:"";position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--mut)}
+.pos{background:var(--risk)}.neg{background:var(--safe)}
+.dr{display:grid;grid-template-columns:110px 1fr 60px;gap:10px;align-items:center;margin:9px 0;font-size:15px}
+.bar{height:14px;background:var(--teal);border-radius:3px}
+.leg{font-size:14px;color:var(--mut);margin-top:10px;display:flex;gap:16px;flex-wrap:wrap}
+.leg s{display:inline-block;width:18px;height:4px;margin-right:6px;vertical-align:middle;text-decoration:none}
+label{display:block;font-weight:600;font-size:15px;margin-top:14px}label span{float:right;color:var(--teal)}
+input[type=range]{width:100%;accent-color:var(--teal)}
+.big{font:800 36px "Bricolage Grotesque",sans-serif}
+.rec{border-left:4px solid var(--teal);padding:4px 0 4px 16px;margin:0 0 20px}
+.rec h3{font-size:20px;margin-bottom:4px}.rec p{margin:0;color:var(--mut)}.rec em{font-style:normal;font-weight:600;color:var(--ink)}
+svg text{fill:var(--mut);font:12px "Source Sans 3",sans-serif}
+footer{border-top:1px solid var(--line);padding:28px 24px;text-align:center;color:var(--mut);font-size:14px}
+@media(max-width:800px){.hero,.two{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav><b>WorkloadIQ</b><a href="#trend">Trend</a><a href="#curve">Workload curve</a><a href="#teams">Bottlenecks</a><a href="#watch">Burnout watch</a><a href="#sim">Simulator</a><a href="#actions">Interventions</a></nav>
+
+<section class="hero">
+<div>
+<h1>More hours. Less output.</h1>
+<p>WorkloadIQ analyzes workload, overtime, absenteeism, task completion, engagement and performance. It finds where extra hours stopped paying off, locates operational bottlenecks, and recommends workload changes.</p>
+<p><a class="btn" href="#teams">Find the bottlenecks</a></p>
+</div>
+<div class="panel"><h3 style="font-size:18px;margin-bottom:6px">Last 12 weeks (week 1 = 100)</h3><div id="heroChart"></div></div>
+</section>
+
+<section id="trend">
+<h2>Productivity trend</h2>
+<p class="sub">Demo data for <span id="n"></span> employees in 8 teams. Hours have risen, but task output per hour has fallen.</p>
+<div class="kpis" id="kpis"></div>
+</section>
+
+<section id="curve">
+<h2>Where extra hours stop helping</h2>
+<p class="sub">A quadratic model fitted to weekly hours and tasks completed finds the point of diminishing returns. Past it, each extra hour adds less than it costs in fatigue and absence.</p>
+<div class="two">
+<div class="panel"><h3 style="font-size:18px">Tasks per hour by weekly hours</h3><div id="band"></div><p id="opt" style="margin-bottom:0"></p></div>
+<div class="panel"><h3 style="font-size:18px">What drives tasks per hour</h3><div id="drv"></div>
+<div class="leg"><span style="color:var(--risk)">Red lowers productivity</span><span style="color:var(--safe)">Green raises it</span></div></div>
+</div>
+</section>
+
+<section id="teams">
+<h2>Operational bottlenecks</h2>
+<p class="sub">Each team gets a bottleneck score from six signals. Red cells show where a team is worst compared with the other teams.</p>
+<div class="panel tw"><table class="hm" id="hm"></table></div>
+</section>
+
+<section id="watch">
+<h2>Burnout watchlist</h2>
+<p class="sub">Employees combining long hours, high absence and low engagement. These people are the first to lose output or leave.</p>
+<div class="panel tw"><table id="wt"></table></div>
+</section>
+
+<section id="sim">
+<h2>Workload simulator</h2>
+<p class="sub">Test an intervention. Every employee is re-scored with the fitted workload model.</p>
+<div class="two">
+<div class="panel">
+<label>Weekly hours cap <span id="v1"></span></label><input type="range" id="s1" min="40" max="60" value="60">
+<label>Absence reduction from wellbeing support <span id="v2">0%</span></label><input type="range" id="s2" min="0" max="40" value="0">
+<label>Engagement recovery per hour removed <span id="v3">0.12</span></label><input type="range" id="s3" min="0" max="0.2" step=".01" value="0.12">
+</div>
+<div class="panel">
+<div style="color:var(--mut)">Tasks completed per week</div>
+<div class="big"><span id="o0"></span> → <span id="o1" style="color:var(--safe)"></span></div>
+<p>Hours worked: <b id="hh"></b><br>Tasks per hour: <b id="tph"></b><br>Unfinished backlog: <b id="bk"></b></p>
+</div>
+</div>
+</section>
+
+<section id="actions">
+<h2>Recommended interventions</h2>
+<p class="sub">Actions for the three highest-scoring teams, based on each team's worst signal.</p>
+<div id="recs"></div>
+</section>
+<footer>WorkloadIQ · Employee Productivity vs Workload · Demo data is synthetic. Patterns show association, not proof of cause.</footer>
+
+<script>
+const TEAMS=['Support','Engineering','QA','Sales','Operations','Design','Finance','HR'],BIAS=[4,3,2,1,0,-1,-3,-4],LOAD=[8,6,5,2,0,0,-3,-4];
+const $=id=>document.getElementById(id),cl=(x,a,b)=>Math.min(b,Math.max(a,x)),f1=x=>x.toFixed(1),pc=x=>Math.round(x*100)+'%';
+let seed=11;const r=()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const g=()=>Math.sqrt(-2*Math.log(r()+1e-9))*Math.cos(6.283*r());
+const E=[];for(let i=0;i<240;i++){const t=i%8;E.push({id:'E'+(2001+i),t,h:cl(44.5+BIAS[t]+g()*4.5,32,62),k:cl(1+g()*.12,.7,1.3),e0:7+g()*1.1,a0:g()*.6,n:1+g()*.04,perf:cl(Math.round(3+g()*.8),1,5),asg:36+LOAD[t]+g()*3})}
+function M(e,o={}){const h=o.h??e.h,eng=cl(e.e0-.12*(h-40)+(o.eAdj||0),1,10),ab=Math.max(0,(1.2+e.a0+.09*Math.max(0,h-40))*(1-(o.aCut||0)));
+const out=2*e.k*e.n*(.9*h-.0105*h*h)*(.88+.025*eng)*(1-ab*.012);return{h,eng,ab,out,tph:out/h}}
+const C=E.map(e=>({e,...M(e)}));
+const sum=a=>a.reduce((x,y)=>x+y,0),avg=a=>sum(a)/a.length;
+// weekly trend
+const WK=[...Array(12).keys()].map(w=>{const s=.5*w-5.5,m=E.map(e=>M(e,{h:e.h+s}));return{h:avg(m.map(x=>x.h)),o:sum(m.map(x=>x.out)),t:sum(m.map(x=>x.out))/sum(m.map(x=>x.h))}});
+function line(el,w,hgt){const S=[['Avg hours',WK.map(x=>x.h),'var(--risk)'],['Tasks per hour',WK.map(x=>x.t),'var(--teal)'],['Total tasks',WK.map(x=>x.o),'var(--amb)']].map(([n,v,c])=>[n,v.map(x=>x/v[0]*100),c]);
+const all=S.flatMap(s=>s[1]),lo=Math.min(...all)-1,hi=Math.max(...all)+1,X=i=>40+i*(w-60)/11,Y=v=>hgt-26-(v-lo)/(hi-lo)*(hgt-40);
+$(el).innerHTML=`<svg viewBox="0 0 ${w} ${hgt}" width="100%" role="img" aria-label="Index of hours, tasks per hour and total tasks over 12 weeks">`+
+[lo,(lo+hi)/2,hi].map(v=>`<line x1="40" x2="${w-20}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--line)"/><text x="4" y="${Y(v)+4}">${Math.round(v)}</text>`).join('')+
+S.map(s=>`<polyline fill="none" stroke="${s[2]}" stroke-width="3" points="${s[1].map((v,i)=>X(i)+','+Y(v)).join(' ')}"/>`).join('')+
+`<text x="40" y="${hgt-6}">Week 1</text><text x="${w-70}" y="${hgt-6}">Week 12</text></svg><div class="leg">${S.map(s=>`<span><s style="background:${s[2]}"></s>${s[0]}</span>`).join('')}</div>`}
+// quadratic fit
+function fit(){const x=C.map(c=>c.h),y=C.map(c=>c.out);const p=k=>sum(x.map(v=>v**k));
+const A=[[C.length,p(1),p(2),sum(y)],[p(1),p(2),p(3),sum(x.map((v,i)=>v*y[i]))],[p(2),p(3),p(4),sum(x.map((v,i)=>v*v*y[i]))]];
+for(let i=0;i<3;i++){for(let j=i+1;j<3;j++){const f=A[j][i]/A[i][i];for(let k=i;k<4;k++)A[j][k]-=f*A[i][k]}}
+const c=A[2][3]/A[2][2],b=(A[1][3]-A[1][2]*c)/A[1][1];return -b/(2*c)}
+const FE=[['Weekly hours',c=>c.h],['Absence days',c=>c.ab],['Engagement',c=>c.eng],['Task load assigned',c=>c.e.asg],['Performance rating',c=>c.e.perf]];
+function drivers(){const mu=FE.map(f=>avg(C.map(f[1]))),sd=FE.map((f,j)=>Math.sqrt(avg(C.map(c=>(f[1](c)-mu[j])**2)))||1),ym=avg(C.map(c=>c.tph)),ys=Math.sqrt(avg(C.map(c=>(c.tph-ym)**2)));
+const X=C.map(c=>FE.map((f,j)=>(f[1](c)-mu[j])/sd[j])),y=C.map(c=>(c.tph-ym)/ys),w=FE.map(()=>0);
+for(let e=0;e<500;e++){const gw=FE.map(()=>0);X.forEach((x,i)=>{const p=x.reduce((a,v,j)=>a+v*w[j],0)-y[i];x.forEach((v,j)=>gw[j]+=p*v)});w.forEach((_,j)=>w[j]-=.1*gw[j]/X.length)}return w}
+function render(){
+$('n').textContent=E.length;line('heroChart',520,230);
+const d=k=>(WK[11][k]/WK[0][k]-1),sg=x=>(x>=0?'+':'')+Math.round(x*100)+'%';
+$('kpis').innerHTML=[[f1(WK[11].h)+' h','Avg weekly hours ('+sg(d('h'))+')'],[f1(WK[11].t*1)+'','Tasks per hour ('+sg(d('t'))+')'],[Math.round(WK[11].o),'Tasks per week ('+sg(d('o'))+')'],[f1(avg(C.map(c=>c.eng)))+' / 10','Avg engagement'],[f1(avg(C.map(c=>c.ab))),'Absence days per month'],[pc(C.filter(c=>c.h>50).length/C.length),'Employees over 50 h/week']].map(k=>`<div class="kpi"><b>${k[0]}</b><span>${k[1]}</span></div>`).join('');
+const bands=[['Under 40 h',0,40],['40–45 h',40,45],['45–50 h',45,50],['50–55 h',50,55],['55+ h',55,99]].map(([n,a,b])=>{const m=C.filter(c=>c.h>=a&&c.h<b);return{n,v:m.length?avg(m.map(c=>c.tph)):0,c:m.length}}),mx=Math.max(...bands.map(b=>b.v));
+$('band').innerHTML=bands.map(b=>`<div class="dr"><span>${b.n}</span><div class="bar" style="width:${b.v/mx*100}%"></div><b>${b.v.toFixed(2)}</b></div>`).join('');
+const opt=fit();$('opt').innerHTML=`Output peaks near <b>${f1(opt)} hours per week</b>. Above that, extra hours add little or reduce completed tasks.`;
+const w=drivers(),ord=FE.map((f,j)=>({n:f[0],w:w[j]})).sort((a,b)=>Math.abs(b.w)-Math.abs(a.w)),m=Math.max(...ord.map(o=>Math.abs(o.w)));
+$('drv').innerHTML=ord.map(o=>`<div class="row"><span>${o.n}</span><div class="axis"><i class="${o.w<0?'pos':'neg'}" style="${o.w<0?'right:50%':'left:50%'};width:${Math.abs(o.w)/m*50}%"></i></div></div>`).join('');
+teams(opt);watch();sim();window._opt=opt}
+let TS=[];
+const CAUSE=[['Overload','Rebalance tasks away from this team and add temporary capacity. Average hours are well above the productive range.'],
+['Overtime','Cap weekly hours near the productive peak and enforce rest days. Too many people work over 48 hours.'],
+['Absence','Run wellbeing check-ins and review leave patterns. High absence is an early warning of fatigue.'],
+['Completion','Review task scoping, dependencies and work in progress. Teams are not finishing what is assigned.'],
+['Engagement','Hold manager one-to-ones and fix the top team complaints. Engagement is the weakest in the company.'],
+['Productivity','Remove process friction such as meetings, approvals and tool delays that slow each hour of work.']];
+function teams(opt){
+TS=TEAMS.map((n,t)=>{const m=C.filter(c=>c.e.t===t);return{n,v:[avg(m.map(c=>c.h)),m.filter(c=>c.h>48).length/m.length,avg(m.map(c=>c.ab)),avg(m.map(c=>Math.min(1,c.out/c.e.asg))),avg(m.map(c=>c.eng)),avg(m.map(c=>c.tph))]}});
+const bad=[1,1,1,-1,-1,-1];
+for(let j=0;j<6;j++){const v=TS.map(t=>t.v[j]),lo=Math.min(...v),hi=Math.max(...v);TS.forEach(t=>{(t.b=t.b||[])[j]=hi===lo?0:bad[j]>0?(t.v[j]-lo)/(hi-lo):(hi-t.v[j])/(hi-lo)})}
+TS.forEach(t=>{t.s=Math.round(avg(t.b)*100);t.c=t.b.indexOf(Math.max(...t.b))});TS.sort((a,b)=>b.s-a.s);
+const H=['Avg hours','Over 48 h','Absence','Completion','Engagement','Tasks/hour'],F=[v=>f1(v),v=>pc(v),v=>f1(v),v=>pc(v),v=>f1(v),v=>v.toFixed(2)];
+$('hm').innerHTML='<tr><th>Team</th>'+H.map(h=>`<th>${h}</th>`).join('')+'<th>Score</th><th>Level</th></tr>'+TS.map(t=>{const L=t.s>=60?['High','var(--risk)']:t.s>=40?['Medium','var(--amb)']:['Low','var(--safe)'];
+return`<tr><td>${t.n}</td>${t.v.map((v,j)=>`<td style="background:rgba(201,64,47,${(t.b[j]*.55).toFixed(2)})">${F[j](v)}</td>`).join('')}<td><b>${t.s}</b></td><td><span class="pill" style="background:${L[1]}">${L[0]}</span></td></tr>`}).join('');
+$('recs').innerHTML=TS.slice(0,3).map(t=>`<div class="rec"><h3>${t.n}: ${CAUSE[t.c][0]}</h3><p><em>Bottleneck score ${t.s}.</em> ${CAUSE[t.c][1]} Target about ${Math.round(opt)} hours per week per person.</p></div>`).join('')}
+function watch(){
+const R=C.map(c=>({c,s:Math.max(0,c.h-45)/10+c.ab/4+(7-c.eng)/3})).sort((a,b)=>b.s-a.s).slice(0,8);
+$('wt').innerHTML='<tr><th>Employee</th><th>Team</th><th>Hours/week</th><th>Absence days</th><th>Engagement</th><th>Tasks/hour</th></tr>'+R.map(x=>`<tr><td>${x.c.e.id}</td><td>${TEAMS[x.c.e.t]}</td><td>${f1(x.c.h)}</td><td>${f1(x.c.ab)}</td><td>${f1(x.c.eng)}</td><td>${x.c.tph.toFixed(2)}</td></tr>`).join('')}
+function sim(){
+const cap=+$('s1').value,ac=+$('s2').value,er=+$('s3').value;
+$('v1').textContent=cap>=60?'No cap':cap+' h';$('v2').textContent=ac+'%';$('v3').textContent=er.toFixed(2);
+const N=E.map(e=>{const h=Math.min(e.h,cap);return{...M(e,{h,aCut:ac/100,eAdj:er*(e.h-h)}),a:e.asg}});
+const o0=sum(C.map(c=>c.out)),o1=sum(N.map(x=>x.out)),h0=sum(C.map(c=>c.h)),h1=sum(N.map(x=>x.h));
+$('o0').textContent=Math.round(o0);$('o1').textContent=Math.round(o1);
+$('hh').textContent=Math.round(h0).toLocaleString()+' → '+Math.round(h1).toLocaleString();
+$('tph').textContent=(o0/h0).toFixed(3)+' → '+(o1/h1).toFixed(3);
+$('bk').textContent=Math.round(sum(C.map(c=>Math.max(0,c.e.asg-c.out))))+' → '+Math.round(sum(N.map(x=>Math.max(0,x.a-x.out))))+' tasks'}
+['s1','s2','s3'].forEach(i=>$(i).addEventListener('input',sim));
+render();
+</script>
+</body>
+</html>
